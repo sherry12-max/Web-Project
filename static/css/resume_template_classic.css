@@ -1,0 +1,212 @@
+/* Classic Resume Template CSS */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Print-specific styles for A4 format */
+@page {
+    size: A4;
+    margin: 1in;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .resume-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Typography */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    color: #000;
+    background-color: #fff;
+    font-size: 12pt;
+}
+
+/* Container */
+.resume-container {
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 1rem auto;
+    background: white;
+    padding: 1in;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1rem;
+}
+
+.name {
+    font-size: 24pt;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-info {
+    font-size: 11pt;
+}
+
+.contact-item {
+    margin: 0 1rem;
+}
+
+.contact-item:first-child {
+    margin-left: 0;
+}
+
+.contact-item:last-child {
+    margin-right: 0;
+}
+
+/* Section Styles */
+.section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 14pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.25rem;
+}
+
+/* Summary */
+.summary {
+    text-align: justify;
+    margin-bottom: 1rem;
+}
+
+/* Experience Styles */
+.experience-item {
+    margin-bottom: 1.25rem;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.25rem;
+}
+
+.job-title {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.job-duration {
+    font-size: 11pt;
+    font-style: italic;
+}
+
+.company-name {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.job-description {
+    font-size: 11pt;
+    text-align: justify;
+}
+
+/* Education Styles */
+.education-item {
+    margin-bottom: 1rem;
+}
+
+.degree {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.institution {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.graduation-year {
+    font-size: 11pt;
+    font-style: italic;
+}
+
+/* Skills Styles */
+.skills-list {
+    font-size: 11pt;
+}
+
+.skill-category {
+    margin-bottom: 0.5rem;
+    text-align: justify;
+}
+
+/* Projects Styles */
+.project-item {
+    margin-bottom: 1rem;
+}
+
+.project-title {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.project-description {
+    font-size: 11pt;
+    text-align: justify;
+}
+
+/* Certifications Styles */
+.certification-item {
+    margin-bottom: 0.75rem;
+}
+
+.certification-name {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.certification-issuer {
+    font-size: 11pt;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .resume-container {
+        margin: 0.5rem;
+        padding: 0.5in;
+    }
+    
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .job-duration {
+        margin-top: 0.25rem;
+    }
+}

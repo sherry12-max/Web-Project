@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Technical Skill - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Delete Technical Skill</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'technical_skill_list' %}">Technical Skills</a></li>
+      <li class="breadcrumb-item active">Delete</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-danger">
+            <i class="bi bi-exclamation-triangle"></i> Confirm Deletion
+          </h5>
+          
+          <div class="alert alert-warning">
+            <h6 class="alert-heading">Warning!</h6>
+            <p class="mb-0">You are about to permanently delete this technical skill. This action cannot be undone.</p>
+          </div>
+
+          <div class="card bg-light">
+            <div class="card-body">
+              <h6 class="card-title">Technical Skill Details</h6>
+              <p><strong>Technology:</strong> {{ object.technology.name }}</p>
+              <p><strong>Category:</strong> {{ object.technology.get_category_display }}</p>
+              <p><strong>Proficiency:</strong> {{ object.get_proficiency_display }} ({{ object.proficiency }}%)</p>
+              <p><strong>Experience:</strong> {{ object.years_experience }} year{{ object.years_experience|pluralize }}</p>
+              {% if object.last_used %}
+              <p><strong>Last Used:</strong> {{ object.last_used|date:"F Y" }}</p>
+              {% endif %}
+              <p><strong>Projects:</strong> {{ object.project_count }}</p>
+            </div>
+          </div>
+
+          <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Yes, Delete Skill
+              </button>
+              <a href="{% url 'technical_skill_detail' object.pk %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

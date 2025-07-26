@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume - {{ resume.title|default:"Resume" }}</title>
+    <link rel="stylesheet" href="{% static 'css/resume_template_modern.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="profile-section">
+                    <h1 class="name">{{ resume.user.get_full_name|default:resume.user.username }}</h1>
+                    <h2 class="title">{{ resume.title|default:"Professional" }}</h2>
+                    <p class="summary">{{ resume.summary|default:"Professional summary will appear here." }}</p>
+                </div>
+                <div class="contact-section">
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span class="contact-text">{{ resume.user.email }}</span>
+                    </div>
+                    {% if resume.user.profile.phone %}
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span class="contact-text">{{ resume.user.profile.phone }}</span>
+                    </div>
+                    {% endif %}
+                    {% if resume.user.profile.location %}
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span class="contact-text">{{ resume.user.profile.location }}</span>
+                    </div>
+                    {% endif %}
+                    {% if resume.user.profile.linkedin %}
+                    <div class="contact-item">
+                        <span class="contact-icon">🔗</span>
+                        <span class="contact-text">{{ resume.user.profile.linkedin }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Experience Section -->
+                <section class="section">
+                    <h3 class="section-title">Professional Experience</h3>
+                    <div class="experience-list">
+                        {% for experience in resume.work_experiences.all %}
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <h4 class="job-title">{{ experience.job_title }}</h4>
+                                <span class="job-duration">
+                                    {{ experience.start_date|date:"M Y" }} -
+                                    {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                                </span>
+                            </div>
+                            <div class="company-info">
+                                <span class="company-name">{{ experience.company }}</span>
+                                {% if experience.location %}
+                                <span class="company-location">{{ experience.location }}</span>
+                                {% endif %}
+                            </div>
+                            {% if experience.description %}
+                            <div class="job-description">
+                                {{ experience.description|linebreaks }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <h4 class="job-title">Add Your Experience</h4>
+                                <span class="job-duration">Start Date - End Date</span>
+                            </div>
+                            <div class="company-info">
+                                <span class="company-name">Company Name</span>
+                                <span class="company-location">Location</span>
+                            </div>
+                            <div class="job-description">
+                                <p>Add your work experience through the resume builder interface.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <!-- Projects Section -->
+                <section class="section">
+                    <h3 class="section-title">Key Projects</h3>
+                    <div class="projects-list">
+                        {% for project in resume.projects.all %}
+                        {% if project.is_active %}
+                        <div class="project-item">
+                            <h4 class="project-title">{{ project.title }}</h4>
+                            <p class="project-description">{{ project.description }}</p>
+                            {% if project.technologies.all %}
+                            <div class="project-tech">
+                                {% for tech in project.technologies.all %}
+                                <span class="tech-tag">{{ tech.name }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <div class="project-item">
+                            <h4 class="project-title">Add Your Projects</h4>
+                            <p class="project-description">Showcase your key projects through the resume builder interface.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Technology</span>
+                                <span class="tech-tag">Stack</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Education Section -->
+                <section class="section">
+                    <h3 class="section-title">Education</h3>
+                    <div class="education-list">
+                        {% for education in resume.educations.all %}
+                        {% if education.is_visible %}
+                        <div class="education-item">
+                            <h4 class="degree">{{ education.degree }}</h4>
+                            <div class="institution">{{ education.institution }}</div>
+                            <div class="education-details">
+                                <span class="graduation-year">{{ education.graduation_date|date:"Y" }}</span>
+                                {% if education.gpa %}
+                                <span class="gpa">GPA: {{ education.gpa }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <div class="education-item">
+                            <h4 class="degree">Add Your Education</h4>
+                            <div class="institution">Institution Name</div>
+                            <div class="education-details">
+                                <span class="graduation-year">Year</span>
+                                <span class="gpa">GPA: X.X/4.0</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section class="section">
+                    <h3 class="section-title">Technical Skills</h3>
+                    <div class="skills-grid">
+                        {% regroup resume.technical_skills.all by technology.category as skill_groups %}
+                        {% for group in skill_groups %}
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">{{ group.grouper }}</h4>
+                            <div class="skill-tags">
+                                {% for skill in group.list %}
+                                {% if skill.is_visible %}
+                                <span class="skill-tag">{{ skill.technology.name }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">Add Your Skills</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Skill 1</span>
+                                <span class="skill-tag">Skill 2</span>
+                                <span class="skill-tag">Skill 3</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <!-- Certifications Section -->
+                {% if resume.certifications.all %}
+                <section class="section">
+                    <h3 class="section-title">Certifications</h3>
+                    <div class="certifications-list">
+                        {% for cert in resume.certifications.all %}
+                        <div class="certification-item">
+                            <h4 class="certification-name">{{ cert.name }}</h4>
+                            <div class="certification-issuer">{{ cert.issuer }}</div>
+                            <div class="certification-date">{{ cert.issue_date|date:"Y" }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+
+                <!-- Languages Section -->
+                {% if resume.languages.all %}
+                <section class="section">
+                    <h3 class="section-title">Languages</h3>
+                    <div class="languages-list">
+                        {% for language in resume.languages.all %}
+                        {% if language.is_visible %}
+                        <div class="language-item">
+                            <span class="language-name">{{ language.name }}</span>
+                            <span class="language-level">{{ language.get_proficiency_display }}</span>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

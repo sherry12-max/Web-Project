@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {% if object %}Edit Technical Skill{% else %}Add Technical Skill{% endif %} - DiamondTalent
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>{% if object %}Edit Technical Skill{% else %}Add Technical Skill{% endif %}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'technical_skill_list' %}">Technical Skills</a></li>
+      <li class="breadcrumb-item active">{% if object %}Edit{% else %}Add{% endif %}</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Technical Skill Information</h5>
+
+          <form method="post" class="row g-3">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+              <div class="col-12">
+                <div class="alert alert-danger">
+                  {{ form.non_field_errors }}
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="col-12">
+              <label for="{{ form.resume.id_for_label }}" class="form-label">Resume *</label>
+              {{ form.resume }}
+              {% if form.resume.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.resume.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="{{ form.technology.id_for_label }}" class="form-label">Technology *</label>
+              {{ form.technology }}
+              {% if form.technology.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.technology.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="{{ form.proficiency.id_for_label }}" class="form-label">Proficiency Level *</label>
+              {{ form.proficiency }}
+              {% if form.proficiency.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.proficiency.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-4">
+              <label for="{{ form.years_experience.id_for_label }}" class="form-label">Years of Experience</label>
+              {{ form.years_experience }}
+              {% if form.years_experience.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.years_experience.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-4">
+              <label for="{{ form.last_used.id_for_label }}" class="form-label">Last Used</label>
+              {{ form.last_used }}
+              {% if form.last_used.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.last_used.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-4">
+              <label for="{{ form.project_count.id_for_label }}" class="form-label">Projects Used In</label>
+              {{ form.project_count }}
+              {% if form.project_count.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.project_count.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-12">
+              <div class="form-check">
+                {{ form.is_visible }}
+                <label class="form-check-label" for="{{ form.is_visible.id_for_label }}">
+                  Show on resume
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-check-circle"></i> {% if object %}Update Skill{% else %}Add Skill{% endif %}
+                </button>
+                <a href="{% url 'technical_skill_list' %}" class="btn btn-secondary">
+                  <i class="bi bi-arrow-left"></i> Cancel
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Tips</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Technology:</strong> Select from available technologies
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Proficiency:</strong> Be honest about your skill level
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Experience:</strong> Count all relevant experience
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Projects:</strong> Include personal and professional projects
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

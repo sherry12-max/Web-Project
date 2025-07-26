@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Email Management - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Email Management</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item active">Email Management</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Your Email Addresses</h5>
+
+          {% if user.emailaddress_set.all %}
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Email Address</th>
+                  <th>Status</th>
+                  <th>Primary</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for emailaddress in user.emailaddress_set.all %}
+                <tr>
+                  <td>{{ emailaddress.email }}</td>
+                  <td>
+                    {% if emailaddress.verified %}
+                      <span class="badge bg-success">Verified</span>
+                    {% else %}
+                      <span class="badge bg-warning">Unverified</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if emailaddress.primary %}
+                      <span class="badge bg-primary">Primary</span>
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if not emailaddress.verified %}
+                      <form method="post" action="{% url 'account_email' %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="action_send" value="{{ emailaddress.email }}">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                          <i class="bi bi-envelope"></i> Resend Verification
+                        </button>
+                      </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            No email addresses found for your account.
+          </div>
+          {% endif %}
+
+          <h6 class="mt-4">Add New Email Address</h6>
+          <form method="post" action="{% url 'account_email' %}" class="row g-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="col-12">
+              <button type="submit" name="action_add" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add Email
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Email Tips</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Verification:</strong> Verify your email to secure your account
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Primary Email:</strong> Used for important notifications
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Multiple Emails:</strong> You can add backup email addresses
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

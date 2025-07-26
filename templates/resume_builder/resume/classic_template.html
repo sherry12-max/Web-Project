@@ -1,0 +1,134 @@
+{% load static %}
+{% load resume_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resume.title|default:"Professional Resume" }} - DiamondTalent</title>
+    <link rel="stylesheet" href="{% static 'css/resume_template_classic.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1 class="name">{{ resume.user.get_full_name|default:resume.user.username }}</h1>
+            <div class="contact-info">
+                <span class="contact-item">{{ resume.user.email }}</span>
+                {% if resume.user.profile.phone %}
+                <span class="contact-item">{{ resume.user.profile.phone }}</span>
+                {% endif %}
+                {% if resume.user.profile.location %}
+                <span class="contact-item">{{ resume.user.profile.location }}</span>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Summary Section -->
+        {% if resume.summary %}
+        <section class="section">
+            <h2 class="section-title">Professional Summary</h2>
+            <p class="summary">{{ resume.summary }}</p>
+        </section>
+        {% endif %}
+
+        <!-- Experience Section -->
+        <section class="section">
+            <h2 class="section-title">Professional Experience</h2>
+            {% for experience in resume.work_experiences.all %}
+            <div class="experience-item">
+                <div class="experience-header">
+                    <h3 class="job-title">{{ experience.job_title }}</h3>
+                    <span class="job-duration">
+                        {{ experience.start_date|date:"M Y" }} -
+                        {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                    </span>
+                </div>
+                <div class="company-name">{{ experience.company }}</div>
+                {% if experience.description %}
+                <div class="job-description">{{ experience.description|linebreaks }}</div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="experience-item">
+                <div class="experience-header">
+                    <h3 class="job-title">Add Your Experience</h3>
+                    <span class="job-duration">Start Date - End Date</span>
+                </div>
+                <div class="company-name">Company Name</div>
+                <div class="job-description">Add your work experience through the resume builder interface.</div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <!-- Education Section -->
+        <section class="section">
+            <h2 class="section-title">Education</h2>
+            {% for education in resume.educations.all %}
+            {% if education.is_visible %}
+            <div class="education-item">
+                <h3 class="degree">{{ education.degree }}</h3>
+                <div class="institution">{{ education.institution }}</div>
+                <div class="graduation-year">{{ education.graduation_date|date:"Y" }}</div>
+            </div>
+            {% endif %}
+            {% empty %}
+            <div class="education-item">
+                <h3 class="degree">Add Your Education</h3>
+                <div class="institution">Institution Name</div>
+                <div class="graduation-year">Year</div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-list">
+                {% regroup resume.technical_skills.all by technology.category as skill_groups %}
+                {% for group in skill_groups %}
+                <div class="skill-category">
+                    <strong>{{ group.grouper }}:</strong>
+                    {% for skill in group.list %}
+                    {% if skill.is_visible %}{{ skill.technology.name }}{% if not forloop.last %}, {% endif %}{% endif %}
+                    {% endfor %}
+                </div>
+                {% empty %}
+                <div class="skill-category">
+                    <strong>Add Your Skills:</strong> Skill 1, Skill 2, Skill 3
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        {% if resume.projects.all %}
+        <section class="section">
+            <h2 class="section-title">Projects</h2>
+            {% for project in resume.projects.all %}
+            {% if project.is_active %}
+            <div class="project-item">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <p class="project-description">{{ project.description }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        <!-- Certifications Section -->
+        {% if resume.certifications.all %}
+        <section class="section">
+            <h2 class="section-title">Certifications</h2>
+            {% for cert in resume.certifications.all %}
+            <div class="certification-item">
+                <h3 class="certification-name">{{ cert.name }}</h3>
+                <div class="certification-issuer">{{ cert.issuer }} - {{ cert.issue_date|date:"Y" }}</div>
+            </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+    </div>
+</body>
+</html>

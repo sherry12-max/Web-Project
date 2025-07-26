@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirm Email - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7 d-flex flex-column align-items-center justify-content-center">
+
+                    <div class="d-flex justify-content-center py-4">
+                        <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center w-auto">
+                            <img src="{% static 'img/logo1.png' %}" alt="">
+                            <span class="d-none d-lg-block">DiamondTalent</span>
+                        </a>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="pt-4 pb-2 text-center">
+                                <div class="mb-4">
+                                    <i class="bi bi-envelope-check text-primary" style="font-size: 4rem;"></i>
+                                </div>
+                                <h5 class="card-title pb-0 fs-4">Confirm Email Address</h5>
+                                <p class="small">Please confirm your email address to complete registration</p>
+                            </div>
+
+                            {% if confirmation %}
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">
+                                    <i class="bi bi-info-circle"></i> Email Confirmation
+                                </h6>
+                                <p class="mb-0">
+                                    Please confirm that <strong>{{ confirmation.email_address.email }}</strong>
+                                    is an email address for user {{ confirmation.email_address.user.username }}.
+                                </p>
+                            </div>
+
+                            <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                                {% csrf_token %}
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-check-circle"></i> Confirm Email Address
+                                    </button>
+                                    <a href="{% url 'account_login' %}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left"></i> Back to Login
+                                    </a>
+                                </div>
+                            </form>
+                            {% else %}
+                            <div class="alert alert-danger">
+                                <h6 class="alert-heading">
+                                    <i class="bi bi-exclamation-triangle"></i> Invalid Confirmation Link
+                                </h6>
+                                <p class="mb-0">
+                                    This email confirmation link is invalid or has expired.
+                                </p>
+                            </div>
+
+                            <div class="text-center">
+                                <a href="{% url 'account_email' %}" class="btn btn-primary">
+                                    <i class="bi bi-arrow-repeat"></i> Request New Confirmation
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="credits">
+                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

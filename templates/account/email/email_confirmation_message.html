@@ -1,0 +1,153 @@
+{% load account %}
+{% user_display user as user_display %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Email - DiamondTalent</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .welcome-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .confirmation-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e9ecef;
+            margin: 25px 0;
+        }
+        .security-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💎 DiamondTalent</div>
+            <h1>Welcome to DiamondTalent!</h1>
+        </div>
+        
+        <div class="content">
+            <div class="welcome-text">
+                Hello <strong>{{ user_display }}</strong>,
+            </div>
+            
+            <p>Thank you for signing up for DiamondTalent! We're excited to help you build amazing resumes and advance your career.</p>
+            
+            <div class="confirmation-box">
+                <h3 style="margin-top: 0; color: #667eea;">📧 Email Confirmation Required</h3>
+                <p>To complete your registration and secure your account, please confirm your email address by clicking the button below:</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="{{ activate_url }}" class="btn">
+                    ✅ Confirm Email Address
+                </a>
+            </div>
+            
+            <div class="security-note">
+                <strong>🔒 Security Note:</strong> This confirmation link will expire in 24 hours for your security. 
+                If you didn't create an account with DiamondTalent, please ignore this email.
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h3 style="color: #667eea;">🚀 What's Next?</h3>
+            <ul style="color: #555;">
+                <li>Confirm your email address</li>
+                <li>Complete your profile</li>
+                <li>Create your first professional resume</li>
+                <li>Choose from our beautiful templates</li>
+                <li>Download and share your resume</li>
+            </ul>
+            
+            <p>If you have any questions, feel free to contact our support team. We're here to help!</p>
+            
+            <p style="margin-top: 30px;">
+                Best regards,<br>
+                <strong>The DiamondTalent Team</strong>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>DiamondTalent</strong> - Professional Resume Builder</p>
+            <p>This email was sent to {{ email }}. If you didn't sign up for DiamondTalent, please ignore this email.</p>
+            <p style="font-size: 12px; margin-top: 15px;">
+                © 2024 DiamondTalent. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

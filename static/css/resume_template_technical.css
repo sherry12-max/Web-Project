@@ -1,0 +1,394 @@
+/* Technical Resume Template CSS */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Print-specific styles for A4 format */
+@page {
+    size: A4;
+    margin: 0.5in;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .resume-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Typography */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background-color: #f7fafc;
+    font-size: 14px;
+}
+
+/* Container */
+.resume-container {
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: 2rem auto;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+/* Header Section */
+.header {
+    background: #1a202c;
+    color: white;
+    padding: 2rem;
+    border-bottom: 4px solid #00d9ff;
+}
+
+.header-content {
+    max-width: 100%;
+}
+
+.name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #00d9ff;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #a0aec0;
+}
+
+.contact-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+
+.contact-item {
+    color: #e2e8f0;
+}
+
+.contact-item::before {
+    content: '> ';
+    color: #00d9ff;
+    font-weight: bold;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #00d9ff;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    background: #1a202c;
+}
+
+/* Code Block Styles */
+.code-block {
+    background: #2d3748;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid #00d9ff;
+}
+
+.summary-code {
+    font-family: 'JetBrains Mono', monospace;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Skills Grid */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.skill-category {
+    background: #f7fafc;
+    padding: 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid #00d9ff;
+}
+
+.skill-category-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 1rem;
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag {
+    background: #1a202c;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Experience Styles */
+.experience-item {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #00d9ff;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.job-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.25rem;
+}
+
+.company-name {
+    color: #00d9ff;
+    font-weight: 500;
+}
+
+.job-duration {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: #718096;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.achievement-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.achievement-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.achievement-list li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #00d9ff;
+    font-size: 0.8rem;
+}
+
+/* Projects Styles */
+.projects-container {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.project-item {
+    background: #f7fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-top: 4px solid #00d9ff;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.project-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-badge {
+    background: #00d9ff;
+    color: #1a202c;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.project-description {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+/* Education Styles */
+.education-item {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #00d9ff;
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.degree {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.graduation-year {
+    font-family: 'JetBrains Mono', monospace;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.institution {
+    color: #00d9ff;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.gpa {
+    font-family: 'JetBrains Mono', monospace;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Certifications Grid */
+.certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.certification-item {
+    background: #f7fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #00d9ff;
+}
+
+.certification-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+}
+
+.certification-issuer {
+    color: #00d9ff;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.certification-date {
+    font-family: 'JetBrains Mono', monospace;
+    color: #718096;
+    font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .resume-container {
+        margin: 1rem;
+    }
+    
+    .header,
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .name {
+        font-size: 2rem;
+    }
+    
+    .contact-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .skills-grid,
+    .certifications-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .experience-header,
+    .project-header,
+    .education-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

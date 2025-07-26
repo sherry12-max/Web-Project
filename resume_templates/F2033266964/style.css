@@ -1,0 +1,378 @@
+/* Corporate Executive Resume Template CSS */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+    --primary-color: #1e3a8a;
+    --secondary-color: #3730a3;
+    --accent-color: #dc2626;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --background: #f8fafc;
+    --white: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+/* Print-specific styles for A4 format */
+@page {
+    size: A4;
+    margin: 0.75in;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        font-size: 11px;
+    }
+    
+    .resume-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background);
+    font-size: 14px;
+    padding: 2rem 1rem;
+}
+
+/* Container */
+.resume-container {
+    max-width: 210mm;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Executive Header */
+.executive-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    padding: 3rem 2.5rem 2rem;
+    position: relative;
+}
+
+.executive-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="2" height="2" fill="rgba(255,255,255,0.1)"/><rect x="20" y="10" width="1" height="1" fill="rgba(255,255,255,0.1)"/></svg>');
+    opacity: 0.3;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.executive-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.executive-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.contact-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    font-size: 0.95rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.contact-label {
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.contact-value {
+    font-weight: 400;
+}
+
+/* Main Grid */
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    padding: 3rem 2.5rem;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--accent-color);
+}
+
+/* Executive Summary */
+.executive-summary {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-light);
+    background: var(--background);
+    padding: 2rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Experience */
+.experience-item {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.experience-item:last-child {
+    border-bottom: none;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.job-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.company-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.tenure {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 500;
+    background: var(--background);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.experience-description {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-top: 1rem;
+}
+
+/* Secondary Content */
+.secondary-content .section {
+    background: var(--background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-top: 3px solid var(--primary-color);
+}
+
+.secondary-content .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Education */
+.education-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.education-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.degree {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.institution {
+    font-size: 0.95rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.graduation-year {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Competencies */
+.competencies-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+
+.competency-item {
+    background: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Certifications */
+.certification-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.certification-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cert-name {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.cert-issuer {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.cert-date {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* Languages */
+.language-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--accent-color);
+}
+
+.language-name {
+    font-weight: 500;
+}
+
+.language-level {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+    
+    .resume-container {
+        border-radius: 0;
+    }
+    
+    .executive-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .executive-name {
+        font-size: 2.5rem;
+    }
+    
+    .contact-bar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+    }
+    
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .executive-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .executive-name {
+        font-size: 2rem;
+    }
+    
+    .main-grid {
+        padding: 1.5rem 1rem;
+    }
+}

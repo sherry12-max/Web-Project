@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {% if object %}Edit Resume{% else %}Create Resume{% endif %} - DiamondTalent
+{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>{% if object %}Edit Resume{% else %}Create Resume{% endif %}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'resume_list' %}">Resumes</a></li>
+      <li class="breadcrumb-item active">{% if object %}Edit{% else %}Create{% endif %}</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resume Information</h5>
+
+          <form method="post" class="row g-3">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+              <div class="col-12">
+                <div class="alert alert-danger">
+                  {{ form.non_field_errors }}
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="col-12">
+              <label for="{{ form.title.id_for_label }}" class="form-label">Resume Title *</label>
+              {{ form.title }}
+              {% if form.title.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.title.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+              <div class="form-text">Give your resume a descriptive title (e.g., "Software Engineer Resume")</div>
+            </div>
+
+            <div class="col-12">
+              <label for="{{ form.slug.id_for_label }}" class="form-label">URL Slug</label>
+              {{ form.slug }}
+              {% if form.slug.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.slug.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+              <div class="form-text">URL-friendly version of the title (auto-generated if left blank)</div>
+            </div>
+
+            <div class="col-12">
+              <label for="{{ form.summary.id_for_label }}" class="form-label">Summary</label>
+              {{ form.summary }}
+              {% if form.summary.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.summary.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+              <div class="form-text">Brief overview of your professional background</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="{{ form.template.id_for_label }}" class="form-label">Template</label>
+              {{ form.template }}
+              {% if form.template.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.template.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="{{ form.visibility.id_for_label }}" class="form-label">Visibility</label>
+              {{ form.visibility }}
+              {% if form.visibility.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.visibility.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="{{ form.language.id_for_label }}" class="form-label">Language</label>
+              {{ form.language }}
+              {% if form.language.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.language.errors %}{{ error }}{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="col-12">
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-check-circle"></i> {% if object %}Update Resume{% else %}Create Resume{% endif %}
+                </button>
+                <a href="{% url 'resume_list' %}" class="btn btn-secondary">
+                  <i class="bi bi-arrow-left"></i> Cancel
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Tips</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Title:</strong> Use a clear, descriptive title that reflects your target role
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Summary:</strong> Write a compelling 2-3 sentence overview of your experience
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Template:</strong> Choose a template that matches your industry and style
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-lightbulb text-warning"></i>
+              <strong>Visibility:</strong> Keep private while editing, make public when ready to share
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

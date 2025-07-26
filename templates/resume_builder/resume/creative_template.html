@@ -1,0 +1,195 @@
+{% load static %}
+{% load resume_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resume.title|default:"Creative Resume" }} - DiamondTalent</title>
+    <link rel="stylesheet" href="{% static 'css/resume_template_creative.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1 class="name">{{ resume.user.get_full_name|default:resume.user.username }}</h1>
+                <p class="title">{{ resume.title|default:"Creative Professional" }}</p>
+            </div>
+
+            <div class="contact-section">
+                <h3 class="sidebar-title">Contact</h3>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ resume.user.email }}</span>
+                </div>
+                {% if resume.user.profile.phone %}
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ resume.user.profile.phone }}</span>
+                </div>
+                {% endif %}
+                {% if resume.user.profile.location %}
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ resume.user.profile.location }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h3 class="sidebar-title">Skills</h3>
+                {% regroup resume.technical_skills.all by technology.category as skill_groups %}
+                {% for group in skill_groups %}
+                <div class="skill-category">
+                    <h4 class="skill-category-title">{{ group.grouper }}</h4>
+                    {% for skill in group.list %}
+                    {% if skill.is_visible %}
+                    <div class="skill-item">
+                        <span class="skill-name">{{ skill.technology.name }}</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% empty %}
+                <div class="skill-category">
+                    <h4 class="skill-category-title">Add Your Skills</h4>
+                    <div class="skill-item">
+                        <span class="skill-name">Skill 1</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Languages Section -->
+            {% if resume.languages.all %}
+            <div class="languages-section">
+                <h3 class="sidebar-title">Languages</h3>
+                {% for language in resume.languages.all %}
+                {% if language.is_visible %}
+                <div class="language-item">
+                    <span class="language-name">{{ language.name }}</span>
+                    <span class="language-level">{{ language.get_proficiency_display }}</span>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Summary Section -->
+            {% if resume.summary %}
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    About Me
+                </h2>
+                <p class="summary">{{ resume.summary }}</p>
+            </section>
+            {% endif %}
+
+            <!-- Experience Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-briefcase"></i>
+                    Experience
+                </h2>
+                {% for experience in resume.work_experiences.all %}
+                <div class="experience-item">
+                    <div class="timeline-dot"></div>
+                    <div class="experience-content">
+                        <h3 class="job-title">{{ experience.job_title }}</h3>
+                        <div class="company-info">
+                            <span class="company-name">{{ experience.company }}</span>
+                            <span class="job-duration">
+                                {{ experience.start_date|date:"M Y" }} -
+                                {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                            </span>
+                        </div>
+                        {% if experience.description %}
+                        <div class="job-description">{{ experience.description|linebreaks }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="experience-item">
+                    <div class="timeline-dot"></div>
+                    <div class="experience-content">
+                        <h3 class="job-title">Add Your Experience</h3>
+                        <div class="company-info">
+                            <span class="company-name">Company Name</span>
+                            <span class="job-duration">Start Date - End Date</span>
+                        </div>
+                        <div class="job-description">Add your work experience through the resume builder interface.</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Education Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Education
+                </h2>
+                {% for education in resume.educations.all %}
+                {% if education.is_visible %}
+                <div class="education-item">
+                    <h3 class="degree">{{ education.degree }}</h3>
+                    <div class="institution">{{ education.institution }}</div>
+                    <div class="graduation-year">{{ education.graduation_date|date:"Y" }}</div>
+                </div>
+                {% endif %}
+                {% empty %}
+                <div class="education-item">
+                    <h3 class="degree">Add Your Education</h3>
+                    <div class="institution">Institution Name</div>
+                    <div class="graduation-year">Year</div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Projects Section -->
+            {% if resume.projects.all %}
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-project-diagram"></i>
+                    Projects
+                </h2>
+                <div class="projects-grid">
+                    {% for project in resume.projects.all %}
+                    {% if project.is_active %}
+                    <div class="project-card">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description }}</p>
+                        {% if project.technologies.all %}
+                        <div class="project-tech">
+                            {% for tech in project.technologies.all %}
+                            <span class="tech-tag">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

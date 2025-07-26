@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Project - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Delete Project</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'project_list' %}">Projects</a></li>
+      <li class="breadcrumb-item active">Delete</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-danger">
+            <i class="bi bi-exclamation-triangle"></i> Confirm Deletion
+          </h5>
+          
+          <div class="alert alert-warning">
+            <h6 class="alert-heading">Warning!</h6>
+            <p class="mb-0">You are about to permanently delete this project. This action cannot be undone.</p>
+          </div>
+
+          <div class="card bg-light">
+            <div class="card-body">
+              <h6 class="card-title">Project Details</h6>
+              <p><strong>Title:</strong> {{ object.title }}</p>
+              <p><strong>Role:</strong> {{ object.role }}</p>
+              <p><strong>Period:</strong> {{ object.start_date|date:"M Y" }} - 
+                {% if object.end_date %}{{ object.end_date|date:"M Y" }}{% else %}Present{% endif %}</p>
+              {% if object.url %}
+              <p><strong>URL:</strong> <a href="{{ object.url }}" target="_blank">{{ object.url }}</a></p>
+              {% endif %}
+              {% if object.technologies.all %}
+              <p><strong>Technologies:</strong> 
+                {% for tech in object.technologies.all %}
+                  {{ tech.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+              {% endif %}
+              <p><strong>Description:</strong> {{ object.description|truncatechars:150 }}</p>
+            </div>
+          </div>
+
+          <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Yes, Delete Project
+              </button>
+              <a href="{% url 'project_detail' object.pk %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

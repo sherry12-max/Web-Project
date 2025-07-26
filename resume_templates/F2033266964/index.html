@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Executive Resume - {{ resume.title|default:"Resume" }}</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Executive Header -->
+        <header class="executive-header">
+            <div class="header-content">
+                <h1 class="executive-name">{{ resume.user.get_full_name|default:resume.user.username }}</h1>
+                <h2 class="executive-title">{{ resume.title|default:"Chief Executive Officer" }}</h2>
+                
+                <div class="contact-bar">
+                    <div class="contact-item">
+                        <span class="contact-label">Email:</span>
+                        <span class="contact-value">{{ resume.user.email }}</span>
+                    </div>
+                    {% if resume.user.profile.phone %}
+                    <div class="contact-item">
+                        <span class="contact-label">Phone:</span>
+                        <span class="contact-value">{{ resume.user.profile.phone }}</span>
+                    </div>
+                    {% endif %}
+                    {% if resume.user.profile.location %}
+                    <div class="contact-item">
+                        <span class="contact-label">Location:</span>
+                        <span class="contact-value">{{ resume.user.profile.location }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Left Column - Primary Content -->
+            <section class="primary-content">
+                <!-- Executive Summary -->
+                {% if resume.summary %}
+                <div class="section">
+                    <h3 class="section-title">Executive Summary</h3>
+                    <div class="executive-summary">
+                        {{ resume.summary }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Professional Experience -->
+                {% if resume.workexperience_set.all %}
+                <div class="section">
+                    <h3 class="section-title">Professional Experience</h3>
+                    {% for experience in resume.workexperience_set.all %}
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="position-info">
+                                <h4 class="job-title">{{ experience.job_title }}</h4>
+                                <div class="company-name">{{ experience.company }}</div>
+                            </div>
+                            <div class="tenure">
+                                {{ experience.start_date|date:"M Y" }} - 
+                                {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                            </div>
+                        </div>
+                        {% if experience.description %}
+                        <div class="experience-description">
+                            {{ experience.description|linebreaks }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- Right Column - Secondary Content -->
+            <aside class="secondary-content">
+                <!-- Education -->
+                {% if resume.education_set.all %}
+                <div class="section">
+                    <h3 class="section-title">Education</h3>
+                    {% for education in resume.education_set.all %}
+                    <div class="education-item">
+                        <div class="degree">{{ education.degree }}</div>
+                        <div class="institution">{{ education.institution }}</div>
+                        <div class="graduation-year">
+                            {{ education.start_date|date:"Y" }} - 
+                            {% if education.end_date %}{{ education.end_date|date:"Y" }}{% else %}Present{% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Core Competencies -->
+                {% if resume.technicalskill_set.all %}
+                <div class="section">
+                    <h3 class="section-title">Core Competencies</h3>
+                    <div class="competencies-grid">
+                        {% for skill in resume.technicalskill_set.all %}
+                        <div class="competency-item">{{ skill.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Certifications -->
+                {% if resume.certification_set.all %}
+                <div class="section">
+                    <h3 class="section-title">Certifications</h3>
+                    {% for certification in resume.certification_set.all %}
+                    <div class="certification-item">
+                        <div class="cert-name">{{ certification.name }}</div>
+                        <div class="cert-issuer">{{ certification.issuing_organization }}</div>
+                        <div class="cert-date">{{ certification.issue_date|date:"Y" }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Languages -->
+                {% if resume.language_set.all %}
+                <div class="section">
+                    <h3 class="section-title">Languages</h3>
+                    {% for language in resume.language_set.all %}
+                    <div class="language-item">
+                        <span class="language-name">{{ language.name }}</span>
+                        <span class="language-level">{{ language.proficiency_level|title }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </aside>
+        </main>
+    </div>
+</body>
+</html>

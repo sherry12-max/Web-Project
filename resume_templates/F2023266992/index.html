@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio Resume - {{ resume.title|default:"Resume" }}</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Main Content - Left Column -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="name">{{ resume.user.get_full_name|default:resume.user.username }}</h1>
+                <h2 class="title">{{ resume.title|default:"Creative Professional" }}</h2>
+            </header>
+
+            <!-- About Section -->
+            {% if resume.summary %}
+            <section class="section">
+                <div class="about">
+                    {{ resume.summary }}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Experience Section -->
+            {% if resume.workexperience_set.all %}
+            <section class="section">
+                <h3 class="section-title">Experience</h3>
+                {% for experience in resume.workexperience_set.all %}
+                <div class="experience-item">
+                    <div class="job-title">{{ experience.job_title }}</div>
+                    <div class="company">{{ experience.company }}</div>
+                    <div class="date-range">
+                        {{ experience.start_date|date:"M Y" }} - 
+                        {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                    </div>
+                    {% if experience.description %}
+                    <div class="job-description">
+                        {{ experience.description|linebreaks }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+
+            <!-- Projects Section -->
+            {% if resume.project_set.all %}
+            <section class="section">
+                <h3 class="section-title">Portfolio</h3>
+                {% for project in resume.project_set.all %}
+                <div class="project-item">
+                    <div class="project-title">{{ project.title }}</div>
+                    {% if project.description %}
+                    <div class="project-description">{{ project.description }}</div>
+                    {% endif %}
+                    {% if project.technologies.all %}
+                    <div class="project-technologies">
+                        {% for tech in project.technologies.all %}
+                        <span class="tech-tag">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+        </main>
+
+        <!-- Sidebar - Right Column -->
+        <aside class="sidebar">
+            <!-- Contact Info -->
+            <section class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <span>{{ resume.user.email }}</span>
+                </div>
+                {% if resume.user.profile.phone %}
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <span>{{ resume.user.profile.phone }}</span>
+                </div>
+                {% endif %}
+                {% if resume.user.profile.location %}
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <span>{{ resume.user.profile.location }}</span>
+                </div>
+                {% endif %}
+                {% if resume.user.profile.linkedin %}
+                <div class="contact-item">
+                    <div class="contact-icon">🔗</div>
+                    <span>{{ resume.user.profile.linkedin }}</span>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- Skills Section -->
+            {% if resume.technicalskill_set.all %}
+            <section class="section">
+                <h3 class="section-title">Skills</h3>
+                <ul class="skills-list">
+                    {% for skill in resume.technicalskill_set.all %}
+                    <li class="skill-item">{{ skill.name }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
+
+            <!-- Education Section -->
+            {% if resume.education_set.all %}
+            <section class="section">
+                <h3 class="section-title">Education</h3>
+                {% for education in resume.education_set.all %}
+                <div class="education-item">
+                    <div class="degree">{{ education.degree }}</div>
+                    <div class="institution">{{ education.institution }}</div>
+                    <div class="education-date">
+                        {{ education.start_date|date:"Y" }} - 
+                        {% if education.end_date %}{{ education.end_date|date:"Y" }}{% else %}Present{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+
+            <!-- Languages Section -->
+            {% if resume.language_set.all %}
+            <section class="section">
+                <h3 class="section-title">Languages</h3>
+                {% for language in resume.language_set.all %}
+                <div class="language-item">
+                    <span class="language-name">{{ language.name }}</span>
+                    <span class="language-level">{{ language.proficiency_level|title }}</span>
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+
+            <!-- Certifications Section -->
+            {% if resume.certification_set.all %}
+            <section class="section">
+                <h3 class="section-title">Certifications</h3>
+                {% for certification in resume.certification_set.all %}
+                <div class="education-item">
+                    <div class="degree">{{ certification.name }}</div>
+                    <div class="institution">{{ certification.issuing_organization }}</div>
+                    <div class="education-date">{{ certification.issue_date|date:"M Y" }}</div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endif %}
+        </aside>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Projects</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item active">Projects</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">Project Portfolio</h5>
+            <a href="{% url 'project_create' %}" class="btn btn-primary">
+              <i class="bi bi-plus-circle"></i> Add Project
+            </a>
+          </div>
+
+          {% if projects %}
+          <div class="row">
+            {% for project in projects %}
+            <div class="col-lg-6 col-md-12 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="card-title mb-0">{{ project.title }}</h6>
+                    {% if not project.is_active %}
+                      <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                  </div>
+                  
+                  <p class="text-muted small mb-2">{{ project.role }}</p>
+                  
+                  <p class="card-text">{{ project.description|truncatechars:120 }}</p>
+                  
+                  <div class="mb-2">
+                    <small class="text-muted">
+                      <i class="bi bi-calendar"></i>
+                      {{ project.start_date|date:"M Y" }} - 
+                      {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                    </small>
+                  </div>
+                  
+                  {% if project.technologies.all %}
+                  <div class="mb-3">
+                    {% for tech in project.technologies.all|slice:":3" %}
+                      <span class="badge bg-light text-dark me-1">{{ tech.name }}</span>
+                    {% endfor %}
+                    {% if project.technologies.count > 3 %}
+                      <span class="badge bg-secondary">+{{ project.technologies.count|add:"-3" }} more</span>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group" role="group">
+                      <a href="{% url 'project_detail' project.pk %}" class="btn btn-sm btn-outline-info" title="View">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                      <a href="{% url 'project_update' project.pk %}" class="btn btn-sm btn-outline-warning" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <a href="{% url 'project_delete' project.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </div>
+                    {% if project.url %}
+                      <a href="{{ project.url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="View Project">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-5">
+            <i class="bi bi-code-slash" style="font-size: 4rem; color: #ccc;"></i>
+            <h4 class="mt-3">No Projects Yet</h4>
+            <p class="text-muted">Showcase your work by adding your projects and achievements.</p>
+            <a href="{% url 'project_create' %}" class="btn btn-primary">
+              <i class="bi bi-plus-circle"></i> Add Your First Project
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

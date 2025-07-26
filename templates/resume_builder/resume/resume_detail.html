@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ resume.title }} - DiamondTalent{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>{{ resume.title }}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'resume_list' %}">Resumes</a></li>
+      <li class="breadcrumb-item active">{{ resume.title }}</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <h5 class="card-title">Resume Details</h5>
+            <div class="btn-group">
+              <a href="{% url 'resume_update' resume.pk %}" class="btn btn-outline-warning btn-sm">
+                <i class="bi bi-pencil"></i> Edit
+              </a>
+              <a href="{% url 'resume_delete' resume.pk %}" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash"></i> Delete
+              </a>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Title:</strong></div>
+            <div class="col-sm-9">{{ resume.title }}</div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Slug:</strong></div>
+            <div class="col-sm-9"><code>{{ resume.slug }}</code></div>
+          </div>
+
+          {% if resume.summary %}
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Summary:</strong></div>
+            <div class="col-sm-9">{{ resume.summary|linebreaks }}</div>
+          </div>
+          {% endif %}
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Template:</strong></div>
+            <div class="col-sm-9">
+              {% if resume.template %}
+                <span class="badge bg-info">{{ resume.template.name }}</span>
+                <small class="text-muted">({{ resume.template.format_type }})</small>
+              {% else %}
+                <span class="badge bg-secondary">No Template Selected</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Visibility:</strong></div>
+            <div class="col-sm-9">
+              {% if resume.visibility == 'PRIVATE' %}
+                <span class="badge bg-secondary">Private</span>
+              {% elif resume.visibility == 'PUBLIC' %}
+                <span class="badge bg-success">Public</span>
+              {% else %}
+                <span class="badge bg-warning">Shared with Link</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Language:</strong></div>
+            <div class="col-sm-9">{{ resume.language|upper }}</div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Created:</strong></div>
+            <div class="col-sm-9">{{ resume.created_at|date:"F d, Y \a\t g:i A" }}</div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Last Modified:</strong></div>
+            <div class="col-sm-9">{{ resume.last_modified|date:"F d, Y \a\t g:i A" }}</div>
+          </div>
+
+          {% if resume.tags %}
+          <div class="row mb-3">
+            <div class="col-sm-3"><strong>Tags:</strong></div>
+            <div class="col-sm-9">
+              {% for tag in resume.tags %}
+                <span class="badge bg-light text-dark">{{ tag }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resume Sections</h5>
+          <div class="list-group list-group-flush">
+            <a href="{% url 'work_experience_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-briefcase me-2"></i>Work Experience</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.work_experiences.count }}</span>
+            </a>
+            <a href="{% url 'education_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-mortarboard me-2"></i>Education</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.educations.count }}</span>
+            </a>
+            <a href="{% url 'project_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-code-slash me-2"></i>Projects</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.projects.count }}</span>
+            </a>
+            <a href="{% url 'technical_skill_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-gear me-2"></i>Technical Skills</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.technical_skills.count }}</span>
+            </a>
+            <a href="{% url 'certification_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-award me-2"></i>Certifications</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.certifications.count }}</span>
+            </a>
+            <a href="{% url 'award_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-trophy me-2"></i>Awards</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.awards.count }}</span>
+            </a>
+            <a href="{% url 'language_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-translate me-2"></i>Languages</span>
+              <span class="badge bg-primary rounded-pill">{{ resume.languages.count }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Actions</h5>
+          <div class="d-grid gap-2">
+            <a href="{% url 'template_selection' %}" class="btn btn-outline-info">
+              <i class="bi bi-palette"></i> Change Template
+            </a>
+            <div class="btn-group w-100">
+              <a href="{% url 'resume_download' resume.pk %}" target="_blank" class="btn btn-success">
+                <i class="bi bi-eye"></i> Preview
+              </a>
+              <a href="{% url 'resume_download_format' resume.pk 'pdf' %}" class="btn btn-success">
+                <i class="bi bi-download"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
